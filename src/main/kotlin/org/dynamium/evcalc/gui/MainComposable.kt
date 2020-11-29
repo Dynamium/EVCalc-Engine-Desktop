@@ -21,25 +21,52 @@ fun MainView() {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Column(
+        Text(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5F),
-            horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Top
+                .align(Alignment.TopCenter),
+            text = "EVCalc Engine"
+        )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(16.dp),
+            ) {
+                val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
 
-            OutlinedTextField(
-                value = textFieldRiderWeight.value,
-                onValueChange = { textFieldRiderWeight.value = it },
-                label = { Text(text = "Вес райдера") }
-            )
-            OutlinedTextField(
-                value = textFieldRiderWeight.value,
-                onValueChange = { textFieldRiderWeight.value = it },
-                label = { Text(text = "Размер батареи") }
-            )
+                OutlinedTextField(
+                    value = textFieldRiderWeight.value,
+                    onValueChange = { textFieldRiderWeight.value = it },
+                    label = { Text(text = "Вес райдера") }
+                )
+                OutlinedTextField(
+                    value = textFieldRiderWeight.value,
+                    onValueChange = { textFieldRiderWeight.value = it },
+                    label = { Text(text = "Емкость батареи") }
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(16.dp)
+            ) {
+                val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
+
+                OutlinedTextField(
+                    value = textFieldRiderWeight.value,
+                    onValueChange = { textFieldRiderWeight.value = it },
+                    label = { Text(text = "Вес райдера") }
+                )
+                OutlinedTextField(
+                    value = textFieldRiderWeight.value,
+                    onValueChange = { textFieldRiderWeight.value = it },
+                    label = { Text(text = "Размер батареи") }
+                )
+            }
         }
     }
 }
