@@ -98,12 +98,12 @@ fun MainView() {
                     onClick = {
                         try {
                             textResult.value = EVCalc.calculateMileage(
+                                DeviceModel.EUC_UNIVERSAL,
                                 textFieldRiderWeight.value.text.toInt(),
                                 textFieldBatteryCapacity.value.text.toInt(),
                                 textFieldAirTemperature.value.text.toInt(),
                                 textFieldBatteryCycles.value.text.toInt(),
                                 textFieldSpeed.value.text.toInt(),
-                                DeviceModel.EUC_UNIVERSAL,
                                 textFieldBatteryPercentage.value.text.toInt()
                             ).toString()
                         } catch (e: Throwable)  {

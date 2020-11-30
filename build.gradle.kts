@@ -24,7 +24,7 @@ dependencies {
     implementation("org.dynamium.evcalc:evcalc-engine:1.0-dev6")
 }
 
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
