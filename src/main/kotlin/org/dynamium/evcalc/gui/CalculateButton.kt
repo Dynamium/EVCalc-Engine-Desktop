@@ -9,9 +9,16 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.dynamium.evcalc.engine.api.DeviceModel
 import org.dynamium.evcalc.engine.api.EVCalc
 
@@ -27,13 +34,24 @@ fun CalculateButton(
     speed: MutableState<TextFieldValue>,
     batteryPercentage: MutableState<TextFieldValue>
     ) {
+    val buttonResult = remember { mutableStateOf("Подсчитать!") }
+
     Button(
-        shape = RoundedCornerShape(6.dp),
+        shape = RoundedCornerShape(state[corners]),
         modifier = Modifier
             .size(state[width], 50.dp),
         onClick = {
             try {
-                textResult.value = EVCalc.calculateMileage(
+                val dummy = EVCalc.calculateMileage(
+                    DeviceModel.EUC_UNIVERSAL,
+                    riderWeight.value.text.toInt(),
+                    batteryCapacity.value.text.toInt(),
+                    airTemperature.value.text.toInt(),
+                    batteryCycles.value.text.toInt(),
+                    speed.value.text.toInt(),
+                    batteryPercentage.value.text.toInt())
+
+                drawCalculated(buttonResult, EVCalc.calculateMileage(
                     DeviceModel.EUC_UNIVERSAL,
                     riderWeight.value.text.toInt(),
                     batteryCapacity.value.text.toInt(),
@@ -41,11 +59,19 @@ fun CalculateButton(
                     batteryCycles.value.text.toInt(),
                     speed.value.text.toInt(),
                     batteryPercentage.value.text.toInt()
-                ).toString()
-                buttonState.value = if (buttonState.value == ButtonState.IDLE) {
-                    ButtonState.PRESSED
+                ).toString())
+
+                if (buttonState.value == ButtonState.IDLE) {
+                    buttonState.value = ButtonState.PRESSED
                 } else {
-                    ButtonState.IDLE
+                    buttonState.value = ButtonState.IDLE
+                    GlobalScope.launch {
+                        delay(2000L)
+                        buttonState.value = ButtonState.PRESSED
+                        delay(250L)
+                        textResult.value = dummy.toString()
+                        buttonResult.value = "Подсчитать!"
+                    }
                 }
             } catch (e: Throwable) {
                 textResult.value = "Что то пошло не так :("
@@ -53,6 +79,16 @@ fun CalculateButton(
         },
         enabled = true
     ) {
-        Text("Подсчитать!")
+        Text(
+            color = Color.White,
+            text = buttonResult.value
+        )
+    }
+}
+
+fun drawCalculated(textResult: MutableState<String>, result: String) {
+    GlobalScope.launch {
+        delay(250L)
+        textResult.value = result
     }
 }

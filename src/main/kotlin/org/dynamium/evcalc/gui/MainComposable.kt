@@ -4,20 +4,15 @@ package org.dynamium.evcalc.gui
 
 import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import org.dynamium.evcalc.engine.api.DeviceModel
-import org.dynamium.evcalc.engine.api.EVCalc
-import java.lang.Integer.parseInt
-import java.time.format.TextStyle
 
 @Composable
 fun MainScreen() {
@@ -98,7 +93,7 @@ fun MainScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                val buttonState = remember { mutableStateOf(ButtonState.IDLE) }
+                val buttonState = remember { mutableStateOf(ButtonState.PRESSED) }
 
                 val toState = if (buttonState.value == ButtonState.IDLE) {
                     ButtonState.PRESSED
@@ -109,37 +104,10 @@ fun MainScreen() {
                 val state = transition(
                     definition = transitionDefinition,
                     initState = buttonState.value,
-                    toState = toState // 2
+                    toState = toState
                 )
 
-                Button(
-                    shape = RoundedCornerShape(6.dp),
-                    modifier = Modifier
-                        .size(state[width], 50.dp),
-                    onClick = {
-                        try {
-                            textResult.value = EVCalc.calculateMileage(
-                                DeviceModel.EUC_UNIVERSAL,
-                                textFieldRiderWeight.value.text.toInt(),
-                                textFieldBatteryCapacity.value.text.toInt(),
-                                textFieldAirTemperature.value.text.toInt(),
-                                textFieldBatteryCycles.value.text.toInt(),
-                                textFieldSpeed.value.text.toInt(),
-                                textFieldBatteryPercentage.value.text.toInt()
-                            ).toString()
-                            buttonState.value = if (buttonState.value == ButtonState.IDLE) {
-                                ButtonState.PRESSED
-                            } else {
-                                ButtonState.IDLE
-                            }
-                        } catch (e: Throwable) {
-                            textResult.value = "Что то пошло не так :("
-                        }
-                    },
-                    enabled = true
-                ) {
-                    Text("Подсчитать!")
-                }
+                CalculateButton(buttonState, state, textResult, textFieldRiderWeight, textFieldBatteryCapacity, textFieldAirTemperature, textFieldBatteryCycles, textFieldSpeed, textFieldBatteryPercentage)
             }
             Box(
                 modifier = Modifier
