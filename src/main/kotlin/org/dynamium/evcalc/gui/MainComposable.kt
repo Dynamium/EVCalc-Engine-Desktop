@@ -2,7 +2,9 @@
 
 package org.dynamium.evcalc.gui
 
+import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,13 +20,14 @@ import java.lang.Integer.parseInt
 import java.time.format.TextStyle
 
 @Composable
-fun MainView() {
+fun MainScreen() {
     Box(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+
         val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
         val textFieldBatteryCapacity = remember { mutableStateOf(TextFieldValue()) }
         val textFieldAirTemperature = remember { mutableStateOf(TextFieldValue()) }
@@ -94,7 +97,17 @@ fun MainView() {
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+                val state = transition(
+                    definition = transitionDefinition,
+                    initState = ButtonState.IDLE,
+                    toState = ButtonState.PRESSED
+                )
+
                 Button(
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier
+                        .size(state[width], 30.dp),
                     onClick = {
                         try {
                             textResult.value = EVCalc.calculateMileage(
@@ -106,7 +119,7 @@ fun MainView() {
                                 textFieldSpeed.value.text.toInt(),
                                 textFieldBatteryPercentage.value.text.toInt()
                             ).toString()
-                        } catch (e: Throwable)  {
+                        } catch (e: Throwable) {
                             textResult.value = "Что то пошло не так :("
                         }
                     },
