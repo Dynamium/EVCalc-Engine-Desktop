@@ -98,16 +98,24 @@ fun MainScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+                val buttonState = remember { mutableStateOf(ButtonState.IDLE) }
+
+                val toState = if (buttonState.value == ButtonState.IDLE) {
+                    ButtonState.PRESSED
+                } else {
+                    ButtonState.IDLE
+                }
+
                 val state = transition(
                     definition = transitionDefinition,
-                    initState = ButtonState.IDLE,
-                    toState = ButtonState.PRESSED
+                    initState = buttonState.value,
+                    toState = toState // 2
                 )
 
                 Button(
                     shape = RoundedCornerShape(6.dp),
                     modifier = Modifier
-                        .size(state[width], 30.dp),
+                        .size(state[width], 50.dp),
                     onClick = {
                         try {
                             textResult.value = EVCalc.calculateMileage(
@@ -119,6 +127,11 @@ fun MainScreen() {
                                 textFieldSpeed.value.text.toInt(),
                                 textFieldBatteryPercentage.value.text.toInt()
                             ).toString()
+                            buttonState.value = if (buttonState.value == ButtonState.IDLE) {
+                                ButtonState.PRESSED
+                            } else {
+                                ButtonState.IDLE
+                            }
                         } catch (e: Throwable) {
                             textResult.value = "Что то пошло не так :("
                         }
