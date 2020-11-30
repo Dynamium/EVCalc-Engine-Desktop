@@ -20,12 +20,12 @@ fun CalculateButton(
     buttonState: MutableState<ButtonState>,
     state: TransitionState,
     textResult: MutableState<String>,
-    textFieldRiderWeight: MutableState<TextFieldValue>,
-    textFieldBatteryCapacity: MutableState<TextFieldValue>,
-    textFieldAirTemperature: MutableState<TextFieldValue>,
-    textFieldBatteryCycles: MutableState<TextFieldValue>,
-    textFieldSpeed: MutableState<TextFieldValue>,
-    textFieldBatteryPercentage: MutableState<TextFieldValue>
+    riderWeight: MutableState<TextFieldValue>,
+    batteryCapacity: MutableState<TextFieldValue>,
+    airTemperature: MutableState<TextFieldValue>,
+    batteryCycles: MutableState<TextFieldValue>,
+    speed: MutableState<TextFieldValue>,
+    batteryPercentage: MutableState<TextFieldValue>
     ) {
     Button(
         shape = RoundedCornerShape(6.dp),
@@ -35,12 +35,12 @@ fun CalculateButton(
             try {
                 textResult.value = EVCalc.calculateMileage(
                     DeviceModel.EUC_UNIVERSAL,
-                    textFieldRiderWeight.value.text.toInt(),
-                    textFieldBatteryCapacity.value.text.toInt(),
-                    textFieldAirTemperature.value.text.toInt(),
-                    textFieldBatteryCycles.value.text.toInt(),
-                    textFieldSpeed.value.text.toInt(),
-                    textFieldBatteryPercentage.value.text.toInt()
+                    riderWeight.value.text.toInt(),
+                    batteryCapacity.value.text.toInt(),
+                    airTemperature.value.text.toInt(),
+                    batteryCycles.value.text.toInt(),
+                    speed.value.text.toInt(),
+                    batteryPercentage.value.text.toInt()
                 ).toString()
                 buttonState.value = if (buttonState.value == ButtonState.IDLE) {
                     ButtonState.PRESSED
