@@ -1,6 +1,6 @@
 @file:Suppress("FunctionName", "unused")
 
-package org.dynamium.evcalc.gui
+package org.dynamium.evcalc.gui.components
 
 import androidx.compose.animation.core.TransitionState
 import androidx.compose.foundation.layout.size
@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.dynamium.evcalc.engine.api.DeviceModel
 import org.dynamium.evcalc.engine.api.EVCalc
+import org.dynamium.evcalc.gui.*
 
 @Composable
 fun CalculateButton(
