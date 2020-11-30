@@ -1,12 +1,10 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.github.jengelman.gradle.plugins.shadow.tasks.*
 
 plugins {
     kotlin("jvm") version "1.4.20"
     id("org.jetbrains.compose") version "0.2.0-build132"
-    id("com.github.johnrengelman.shadow") version "4.0.4"
 }
 
 group = "org.dynamium.evcalc"
@@ -35,21 +33,5 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Engine-GUI-Client"
         }
-    }
-}
-
-tasks {
-    named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("shadow")
-        mergeServiceFiles()
-        manifest {
-            attributes(mapOf("Main-Class" to "org.dynamium.evcalc.gui.MainKt"))
-        }
-    }
-}
-
-tasks {
-    build {
-        dependsOn(shadowJar)
     }
 }
