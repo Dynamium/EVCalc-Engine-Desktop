@@ -3,6 +3,7 @@
 package org.dynamium.evcalc.gui
 
 import androidx.compose.animation.transition
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -13,12 +14,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import org.dynamium.evcalc.gui.components.CalculateButton
 
 @Composable
 fun MainScreen() {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
@@ -36,14 +39,20 @@ fun MainScreen() {
 
         val textResultState = remember { mutableStateOf(ResultTextAnimationState.SHOWN) }
 
-        Text(
-            modifier = Modifier.align(Alignment.TopCenter),
-            text = "EVCalc Engine"
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .height(50.dp),
+                bitmap = imageResource("EVCalc Long logo.png")
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
