@@ -4,7 +4,9 @@ package org.dynamium.evcalc.gui
 
 import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +33,8 @@ fun MainScreen() {
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue()) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
+
+        val textResultState = remember { mutableStateOf(ResultTextAnimationState.SHOWN) }
 
         Text(
             modifier = Modifier.align(Alignment.TopCenter),
@@ -107,7 +111,18 @@ fun MainScreen() {
                     toState = toState
                 )
 
-                CalculateButton(buttonState, state, textResult, textFieldRiderWeight, textFieldBatteryCapacity, textFieldAirTemperature, textFieldBatteryCycles, textFieldSpeed, textFieldBatteryPercentage)
+                CalculateButton(
+                    buttonState,
+                    textResultState,
+                    state,
+                    textResult,
+                    textFieldRiderWeight,
+                    textFieldBatteryCapacity,
+                    textFieldAirTemperature,
+                    textFieldBatteryCycles,
+                    textFieldSpeed,
+                    textFieldBatteryPercentage
+                )
             }
             Box(
                 modifier = Modifier
@@ -121,7 +136,20 @@ fun MainScreen() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val toState = if (textResultState.value == ResultTextAnimationState.SHOWN) {
+                        ResultTextAnimationState.HIDDEN
+                    } else {
+                        ResultTextAnimationState.SHOWN
+                    }
+
+                    val state = transition(
+                        definition = resultTextTransitionDefinition,
+                        initState = textResultState.value,
+                        toState = toState
+                    )
                     Text(
+                        modifier = Modifier
+                            .alpha(state[resultTextOpacity]),
                         style = (MaterialTheme.typography).h5,
                         text = textResult.value
                     )

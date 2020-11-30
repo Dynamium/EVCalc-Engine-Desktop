@@ -1,6 +1,5 @@
 package org.dynamium.evcalc.gui
 
-import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
 import androidx.compose.animation.core.*
 import androidx.compose.ui.unit.dp

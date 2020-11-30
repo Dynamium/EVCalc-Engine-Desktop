@@ -25,6 +25,7 @@ import org.dynamium.evcalc.engine.api.EVCalc
 @Composable
 fun CalculateButton(
     buttonState: MutableState<ButtonState>,
+    textResultState: MutableState<ResultTextAnimationState>,
     state: TransitionState,
     textResult: MutableState<String>,
     riderWeight: MutableState<TextFieldValue>,
@@ -69,17 +70,30 @@ fun CalculateButton(
                         delay(2000L)
                         buttonState.value = ButtonState.PRESSED
                         delay(250L)
-                        textResult.value = dummy.toString()
                         buttonResult.value = "Подсчитать!"
+                    }
+                    GlobalScope.launch {
+                        delay(2000L)
+                        textResultState.value = ResultTextAnimationState.HIDDEN
+                        delay(250L)
+                        textResult.value = "Последнее подсчитанное: $dummy"
+                        textResultState.value = ResultTextAnimationState.SHOWN
                     }
                 }
             } catch (e: Throwable) {
-                textResult.value = "Что то пошло не так :("
+                GlobalScope.launch {
+                    textResultState.value = ResultTextAnimationState.HIDDEN
+                    delay(250L)
+                    textResult.value = "Что то пошло не так :("
+                    textResultState.value = ResultTextAnimationState.SHOWN
+                }
             }
         },
         enabled = true
     ) {
         Text(
+            modifier = Modifier
+                .alpha(state[textOpacity]),
             color = Color.White,
             text = buttonResult.value
         )
