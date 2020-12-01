@@ -34,7 +34,8 @@ fun CalculateButton(
     airTemperature: MutableState<TextFieldValue>,
     batteryCycles: MutableState<TextFieldValue>,
     speed: MutableState<TextFieldValue>,
-    batteryPercentage: MutableState<TextFieldValue>
+    batteryPercentage: MutableState<TextFieldValue>,
+    deviceModel: MutableState<DeviceModel>
     ) {
     val buttonResult = remember { mutableStateOf("Подсчитать!") }
 
@@ -54,7 +55,7 @@ fun CalculateButton(
                     batteryPercentage.value.text.toInt())
 
                 drawCalculated(buttonResult, EVCalc.calculateMileage(
-                    DeviceModel.EUC_UNIVERSAL,
+                    deviceModel.value,
                     riderWeight.value.text.toInt(),
                     batteryCapacity.value.text.toInt(),
                     airTemperature.value.text.toInt(),
