@@ -34,7 +34,7 @@ compose.desktop {
 
             packageName = "EVCalc Engine Desktop"
             version = "1.2"
-            description = "EVCalc Desktop app for calculating stuff for PEVs."
+            description = "EVCalc Desktop app for calculating mileage on one charge and more for PEVs."
 
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
 
