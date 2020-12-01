@@ -1,4 +1,4 @@
-package org.dynamium.evcalc.gui
+package org.dynamium.evcalc.desktop
 
 enum class ButtonState {
     IDLE,

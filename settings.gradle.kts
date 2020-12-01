@@ -6,5 +6,5 @@ pluginManagement {
     }
     
 }
-rootProject.name = "Engine-GUI-Client"
+rootProject.name = "desktop"
 

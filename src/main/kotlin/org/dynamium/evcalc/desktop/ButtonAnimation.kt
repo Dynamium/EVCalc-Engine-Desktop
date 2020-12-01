@@ -1,4 +1,4 @@
-package org.dynamium.evcalc.gui
+package org.dynamium.evcalc.desktop
 
 import androidx.compose.animation.DpPropKey
 import androidx.compose.animation.core.*
