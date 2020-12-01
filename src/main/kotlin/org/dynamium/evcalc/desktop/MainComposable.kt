@@ -40,11 +40,11 @@ fun MainScreen() {
         val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
         val textFieldBatteryCapacity = remember { mutableStateOf(TextFieldValue()) }
         val textFieldAirTemperature = remember { mutableStateOf(TextFieldValue()) }
-        val textFieldBatteryCycles = remember { mutableStateOf(TextFieldValue()) }
+        val textFieldBatteryCycles = remember { mutableStateOf(TextFieldValue("100")) }
         val textFieldSpeed = remember { mutableStateOf(TextFieldValue()) }
         val dropdownMenuDeviceModel = remember { mutableStateOf(DeviceModel.EUC_UNIVERSAL) }
         val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
-        val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue()) }
+        val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
 
@@ -64,92 +64,104 @@ fun MainScreen() {
                     Text("Дополнительные настройки", style = MaterialTheme.typography.h5)
                     val dropdownExpanded = remember { mutableStateOf(false) }
 
-                    DropdownMenu(
-                        expanded = dropdownExpanded.value,
-                        onDismissRequest = { dropdownExpanded.value = false },
-                        toggle = @Composable {
-                            Button(
-                                onClick = {
-                                    dropdownExpanded.value = true
-                                }
-                            ) {
-                                Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
-                                Icon(Icons.Default.ArrowDropDown)
-                            }
-                        },
-                        toggleModifier = Modifier
-                            .wrapContentSize(Alignment.TopStart)
-                    ) {
-                        DropdownMenuItem(
-                            onClick = {
-                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                dropdownMenuDeviceModelReadable.value = "Не выбрано"
-                                GlobalScope.launch {
-                                    delay(200L)
-                                    dropdownExpanded.value = false
-                                }
-                            }
-                        ) {
-                            Text("Не выбрано")
-                        }
-                        Divider()
-                        DropdownMenuItem(
-                            onClick = {
-                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
-                                GlobalScope.launch {
-                                    delay(200L)
-                                    dropdownExpanded.value = false
-                                }
-                            }
-                        ) {
-                            Text("Моноколесо (Универсально)")
-                        }
-                    }
-
-                    Column(
-                        modifier = Modifier,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                            ) {
-                                TextField(
-                                    value = textFieldBatteryCycles.value,
-                                    onValueChange = { textFieldBatteryCycles.value = it },
-                                    label = { Text(text = "Цыклы зарядки батареи") }
-                                )
-                            }
-                            Column(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                            ) {
-                                TextField(
-                                    value = textFieldBatteryPercentage.value,
-                                    onValueChange = { textFieldBatteryPercentage.value = it },
-                                    label = { Text(text = "Заряд батареи") }
-                                )
-                            }
-                        }
-                    }
                     Column(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.End
+                            .padding(top = 16.dp)
                     ) {
-                        Button(
-                            onClick = {
-                                bottomSheetState.hide()
-                            }
+                        DropdownMenu(
+                            expanded = dropdownExpanded.value,
+                            onDismissRequest = { dropdownExpanded.value = false },
+                            toggle = @Composable {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Button(
+
+                                        onClick = {
+                                            dropdownExpanded.value = true
+                                        }
+                                    ) {
+                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
+                                        Icon(Icons.Default.ArrowDropDown)
+                                    }
+                                }
+                            },
+                            toggleModifier = Modifier
+                                .wrapContentSize(Alignment.TopStart)
                         ) {
-                            Text("Готово")
+                            DropdownMenuItem(
+                                onClick = {
+                                    GlobalScope.launch {
+                                        delay(350L)
+                                        dropdownExpanded.value = false
+                                        delay(200L)
+                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                        dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                    }
+                                }
+                            ) {
+                                Text("Не выбрано")
+                            }
+                            Divider()
+                            DropdownMenuItem(
+                                onClick = {
+                                    GlobalScope.launch {
+                                        delay(350L)
+                                        dropdownExpanded.value = false
+                                        delay(200L)
+                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                        dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                    }
+                                }
+                            ) {
+                                Text("Моноколесо (Универсально)")
+                            }
+                        }
+                        Column(
+                            modifier = Modifier,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                ) {
+                                    TextField(
+                                        value = textFieldBatteryCycles.value,
+                                        onValueChange = { textFieldBatteryCycles.value = it },
+                                        label = { Text(text = "Цыклы зарядки батареи") }
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                ) {
+                                    TextField(
+                                        value = textFieldBatteryPercentage.value,
+                                        onValueChange = { textFieldBatteryPercentage.value = it },
+                                        label = { Text(text = "Заряд батареи") }
+                                    )
+                                }
+                            }
+                        }
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Button(
+                                onClick = {
+                                    bottomSheetState.hide()
+                                }
+                            ) {
+                                Text("Готово")
+                            }
                         }
                     }
                 }
