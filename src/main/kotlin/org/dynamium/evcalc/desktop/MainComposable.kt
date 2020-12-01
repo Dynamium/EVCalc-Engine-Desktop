@@ -6,9 +6,10 @@ import androidx.compose.animation.transition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,12 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.ExperimentalKeyInput
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.shortcuts
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.dynamium.evcalc.desktop.components.CalculateButton
+import org.dynamium.evcalc.engine.api.DeviceModel
 
 @ExperimentalKeyInput
 @ExperimentalMaterialApi
@@ -39,6 +42,8 @@ fun MainScreen() {
         val textFieldAirTemperature = remember { mutableStateOf(TextFieldValue()) }
         val textFieldBatteryCycles = remember { mutableStateOf(TextFieldValue()) }
         val textFieldSpeed = remember { mutableStateOf(TextFieldValue()) }
+        val dropdownMenuDeviceModel = remember { mutableStateOf(DeviceModel.EUC_UNIVERSAL) }
+        val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue()) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
@@ -57,6 +62,51 @@ fun MainScreen() {
                         .fillMaxWidth()
                 ) {
                     Text("Дополнительные настройки", style = MaterialTheme.typography.h5)
+                    val dropdownExpanded = remember { mutableStateOf(false) }
+
+                    DropdownMenu(
+                        expanded = dropdownExpanded.value,
+                        onDismissRequest = { dropdownExpanded.value = false },
+                        toggle = @Composable {
+                            Button(
+                                onClick = {
+                                    dropdownExpanded.value = true
+                                }
+                            ) {
+                                Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
+                                Icon(Icons.Default.ArrowDropDown)
+                            }
+                        },
+                        toggleModifier = Modifier
+                            .wrapContentSize(Alignment.TopStart)
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                GlobalScope.launch {
+                                    delay(200L)
+                                    dropdownExpanded.value = false
+                                }
+                            }
+                        ) {
+                            Text("Не выбрано")
+                        }
+                        Divider()
+                        DropdownMenuItem(
+                            onClick = {
+                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                GlobalScope.launch {
+                                    delay(200L)
+                                    dropdownExpanded.value = false
+                                }
+                            }
+                        ) {
+                            Text("Моноколесо (Универсально)")
+                        }
+                    }
+
                     Column(
                         modifier = Modifier,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -71,7 +121,7 @@ fun MainScreen() {
                                 modifier = Modifier
                                     .padding(16.dp)
                             ) {
-                                OutlinedTextField(
+                                TextField(
                                     value = textFieldBatteryCycles.value,
                                     onValueChange = { textFieldBatteryCycles.value = it },
                                     label = { Text(text = "Цыклы зарядки батареи") }
@@ -81,7 +131,7 @@ fun MainScreen() {
                                 modifier = Modifier
                                     .padding(16.dp)
                             ) {
-                                OutlinedTextField(
+                                TextField(
                                     value = textFieldBatteryPercentage.value,
                                     onValueChange = { textFieldBatteryPercentage.value = it },
                                     label = { Text(text = "Заряд батареи") }
@@ -136,6 +186,7 @@ fun MainScreen() {
                                 .padding(16.dp)
                         ) {
                             OutlinedTextField(
+
                                 value = textFieldRiderWeight.value,
                                 onValueChange = { textFieldRiderWeight.value = it },
                                 label = { Text(text = "Вес райдера") }
@@ -192,7 +243,8 @@ fun MainScreen() {
                             textFieldAirTemperature,
                             textFieldBatteryCycles,
                             textFieldSpeed,
-                            textFieldBatteryPercentage
+                            textFieldBatteryPercentage,
+                            dropdownMenuDeviceModel
                         )
                         OutlinedButton(
                             modifier = Modifier
