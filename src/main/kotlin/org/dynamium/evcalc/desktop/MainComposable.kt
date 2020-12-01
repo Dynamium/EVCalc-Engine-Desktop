@@ -68,17 +68,18 @@ fun MainScreen() {
                         modifier = Modifier
                             .padding(top = 16.dp)
                     ) {
-                        DropdownMenu(
-                            expanded = dropdownExpanded.value,
-                            onDismissRequest = { dropdownExpanded.value = false },
-                            toggle = @Composable {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            DropdownMenu(
+                                expanded = dropdownExpanded.value,
+                                onDismissRequest = { dropdownExpanded.value = false },
+                                toggle = @Composable {
                                     Button(
-
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally),
                                         onClick = {
                                             dropdownExpanded.value = true
                                         }
@@ -86,37 +87,37 @@ fun MainScreen() {
                                         Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
                                         Icon(Icons.Default.ArrowDropDown)
                                     }
-                                }
-                            },
-                            toggleModifier = Modifier
-                                .wrapContentSize(Alignment.TopStart)
-                        ) {
-                            DropdownMenuItem(
-                                onClick = {
-                                    GlobalScope.launch {
-                                        delay(350L)
-                                        dropdownExpanded.value = false
-                                        delay(200L)
-                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                        dropdownMenuDeviceModelReadable.value = "Не выбрано"
-                                    }
-                                }
+                                },
+                                toggleModifier = Modifier
+                                    .wrapContentSize(Alignment.TopStart)
                             ) {
-                                Text("Не выбрано")
-                            }
-                            Divider()
-                            DropdownMenuItem(
-                                onClick = {
-                                    GlobalScope.launch {
-                                        delay(350L)
-                                        dropdownExpanded.value = false
-                                        delay(200L)
-                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                        dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                DropdownMenuItem(
+                                    onClick = {
+                                        GlobalScope.launch {
+                                            delay(350L)
+                                            dropdownExpanded.value = false
+                                            delay(200L)
+                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                        }
                                     }
+                                ) {
+                                    Text("Не выбрано")
                                 }
-                            ) {
-                                Text("Моноколесо (Универсально)")
+                                Divider()
+                                DropdownMenuItem(
+                                    onClick = {
+                                        GlobalScope.launch {
+                                            delay(350L)
+                                            dropdownExpanded.value = false
+                                            delay(200L)
+                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                        }
+                                    }
+                                ) {
+                                    Text("Моноколесо (Универсально)")
+                                }
                             }
                         }
                         Column(
