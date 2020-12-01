@@ -52,15 +52,55 @@ fun MainScreen() {
             sheetContent = {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
+                        .padding(16.dp)
+                        .padding(bottom = 0.dp)
+                        .fillMaxWidth()
                 ) {
-                    Button(
-                        onClick = {
-                            bottomSheetState.hide()
-                        }
+                    Text("Дополнительные настройки", style = MaterialTheme.typography.h5)
+                    Column(
+                        modifier = Modifier,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Готово")
+
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                            ) {
+                                OutlinedTextField(
+                                    value = textFieldBatteryCycles.value,
+                                    onValueChange = { textFieldBatteryCycles.value = it },
+                                    label = { Text(text = "Цыклы зарядки батареи") }
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                            ) {
+                                OutlinedTextField(
+                                    value = textFieldBatteryPercentage.value,
+                                    onValueChange = { textFieldBatteryPercentage.value = it },
+                                    label = { Text(text = "Заряд батареи") }
+                                )
+                            }
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Button(
+                            onClick = {
+                                bottomSheetState.hide()
+                            }
+                        ) {
+                            Text("Готово")
+                        }
                     }
                 }
             }
@@ -105,30 +145,20 @@ fun MainScreen() {
                                 onValueChange = { textFieldBatteryCapacity.value = it },
                                 label = { Text(text = "Емкость батареи") }
                             )
-                            OutlinedTextField(
-                                value = textFieldAirTemperature.value,
-                                onValueChange = { textFieldAirTemperature.value = it },
-                                label = { Text(text = "Температура воздуха") }
-                            )
                         }
                         Column(
                             modifier = Modifier
                                 .padding(16.dp)
                         ) {
                             OutlinedTextField(
-                                value = textFieldBatteryCycles.value,
-                                onValueChange = { textFieldBatteryCycles.value = it },
-                                label = { Text(text = "Цыклы зарядки батареи") }
+                                value = textFieldAirTemperature.value,
+                                onValueChange = { textFieldAirTemperature.value = it },
+                                label = { Text(text = "Температура воздуха") }
                             )
                             OutlinedTextField(
                                 value = textFieldSpeed.value,
                                 onValueChange = { textFieldSpeed.value = it },
                                 label = { Text(text = "Средняя скорость") }
-                            )
-                            OutlinedTextField(
-                                value = textFieldBatteryPercentage.value,
-                                onValueChange = { textFieldBatteryPercentage.value = it },
-                                label = { Text(text = "Заряд батареи") }
                             )
                         }
                     }
