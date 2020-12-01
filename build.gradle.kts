@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.dynamium.evcalc"
-version = "1.0"
+version = "1.2"
 
 repositories {
     jcenter()
@@ -28,10 +28,23 @@ tasks.withType<KotlinCompile> {
 
 compose.desktop {
     application {
-        mainClass = "org.dynamium.evcalc.gui.MainKt"
+        mainClass = "org.dynamium.evcalc.desktop.MainKt"
         nativeDistributions {
+
+            packageName = "EVCalc Engine Desktop"
+            version = "1.2"
+            description = "EVCalc Desktop app for calculating stuff for PEVs."
+
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Engine-GUI-Client"
+
+            macOS {
+                iconFile.set(project.file("appIcons/EVCalc Engine Desktop.icns"))
+            }
+
+            linux {
+                iconFile.set(project.file("appIcons/EVCalc Engine Desktop.png"))
+            }
         }
     }
 }
+// ©
