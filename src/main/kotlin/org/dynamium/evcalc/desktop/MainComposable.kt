@@ -99,39 +99,73 @@ fun MainScreen() {
                                                 areDropdownsExpanded[i].value = true
                                             }
                                         ) {
-                                            Text("${startingText[i]} ${dropdownMenuReadables[i].value}")
+                                            Text("${startingText[i]}${dropdownMenuReadables[i].value}")
                                             Icon(Icons.Default.ArrowDropDown)
                                         }
                                     },
                                     toggleModifier = Modifier
                                         .wrapContentSize(Alignment.TopStart)
                                 ) {
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            GlobalScope.launch {
-                                                delay(350L)
-                                                isDeviceModelDropdownExpanded.value = false
-                                                delay(200L)
-                                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                                dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                    when (i) {
+                                        0 -> {
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    GlobalScope.launch {
+                                                        delay(350L)
+                                                        isDeviceModelDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Не выбрано")
+                                            }
+                                            Divider()
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    GlobalScope.launch {
+                                                        delay(350L)
+                                                        isDeviceModelDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Моноколесо (Универсально)")
                                             }
                                         }
-                                    ) {
-                                        Text("Не выбрано")
-                                    }
-                                    Divider()
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            GlobalScope.launch {
-                                                delay(350L)
-                                                isDeviceModelDropdownExpanded.value = false
-                                                delay(200L)
-                                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                                dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+
+                                        1 -> {
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    GlobalScope.launch {
+                                                        delay(350L)
+                                                        isDeviceModelDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        dropdownMenuDeviceModelReadable.value = "Пробег"
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Пробег")
+                                            }
+                                            Divider()
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    GlobalScope.launch {
+                                                        delay(350L)
+                                                        isDeviceModelDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        dropdownMenuDeviceModelReadable.value = "Давление в покрышке(в процессе)"
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Давление в покрышке(в процессе)")
                                             }
                                         }
-                                    ) {
-                                        Text("Моноколесо (Универсально)")
                                     }
                                 }
                             }
