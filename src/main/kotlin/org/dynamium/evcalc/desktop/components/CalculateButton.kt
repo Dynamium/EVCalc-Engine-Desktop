@@ -25,7 +25,7 @@ import org.dynamium.evcalc.desktop.*
 
 @Composable
 fun CalculateButton(
-    buttonState: MutableState<ButtonState>,
+    calculateButtonState: MutableState<CalculateButtonState>,
     textResultState: MutableState<ResultTextAnimationState>,
     state: TransitionState,
     textResult: MutableState<String>,
@@ -40,9 +40,9 @@ fun CalculateButton(
     val buttonResult = remember { mutableStateOf("Подсчитать!") }
 
     Button(
-        shape = RoundedCornerShape(state[corners]),
+        shape = RoundedCornerShape(state[calculateButtonCorners]),
         modifier = Modifier
-            .size(state[width], 50.dp),
+            .size(state[calculateButtonWidth], 50.dp),
         onClick = {
             try {
                 val dummy = EVCalc.calculateMileage(
@@ -64,13 +64,13 @@ fun CalculateButton(
                     batteryPercentage.value.text.toInt()
                 ).toString())
 
-                if (buttonState.value == ButtonState.IDLE) {
-                    buttonState.value = ButtonState.PRESSED
+                if (calculateButtonState.value == CalculateButtonState.IDLE) {
+                    calculateButtonState.value = CalculateButtonState.PRESSED
                 } else {
-                    buttonState.value = ButtonState.IDLE
+                    calculateButtonState.value = CalculateButtonState.IDLE
                     GlobalScope.launch {
                         delay(2000L)
-                        buttonState.value = ButtonState.PRESSED
+                        calculateButtonState.value = CalculateButtonState.PRESSED
                         delay(250L)
                         buttonResult.value = "Подсчитать!"
                     }
@@ -95,7 +95,7 @@ fun CalculateButton(
     ) {
         Text(
             modifier = Modifier
-                .alpha(state[textOpacity]),
+                .alpha(state[calculateButtonTextOpacity]),
             color = Color.White,
             text = buttonResult.value
         )
