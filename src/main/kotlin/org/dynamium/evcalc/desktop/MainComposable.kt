@@ -145,7 +145,7 @@ fun MainScreen() {
                                                         isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
                                                         dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                                        dropdownMenuDeviceModelReadable.value = "Пробег"
+                                                        dropdownMenuCalculationModeReadable.value = "Пробег"
                                                     }
                                                 }
                                             ) {
@@ -159,11 +159,11 @@ fun MainScreen() {
                                                         isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
                                                         dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                                        dropdownMenuDeviceModelReadable.value = "Давление в покрышке(в процессе)"
+                                                        dropdownMenuCalculationModeReadable.value = "Давление в покрышке(не готово)"
                                                     }
                                                 }
                                             ) {
-                                                Text("Давление в покрышке(в процессе)")
+                                                Text("Давление в покрышке(не готово)")
                                             }
                                         }
                                     }
