@@ -6,7 +6,6 @@ import androidx.compose.animation.transition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -25,6 +24,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.dynamium.evcalc.desktop.components.CalculateButton
+import org.dynamium.evcalc.desktop.components.CalculateButtonState
+import org.dynamium.evcalc.desktop.components.calculateButtonTransitionDefinition
 import org.dynamium.evcalc.engine.api.DeviceModel
 
 @ExperimentalKeyInput
@@ -44,6 +45,7 @@ fun MainScreen() {
         val textFieldSpeed = remember { mutableStateOf(TextFieldValue()) }
         val dropdownMenuDeviceModel = remember { mutableStateOf(DeviceModel.EUC_UNIVERSAL) }
         val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
+        val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Не выбрано") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
@@ -51,6 +53,13 @@ fun MainScreen() {
         val textResultState = remember { mutableStateOf(ResultTextAnimationState.SHOWN) }
 
         val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
+        val isDeviceModelDropdownExpanded = remember { mutableStateOf(false) }
+        val isCalculationModeDropdownExpanded = remember { mutableStateOf(false) }
+
+        val areDropdownsExpanded = arrayOf(isDeviceModelDropdownExpanded, isCalculationModeDropdownExpanded)
+
+        val dropdownMenuReadables = arrayOf(dropdownMenuDeviceModelReadable, dropdownMenuCalculationModeReadable)
 
         ModalBottomSheetLayout(
             sheetState = bottomSheetState,
@@ -61,64 +70,157 @@ fun MainScreen() {
                         .padding(bottom = 0.dp)
                         .fillMaxWidth()
                 ) {
-                    Text("Дополнительные настройки", style = MaterialTheme.typography.h5)
-                    val dropdownExpanded = remember { mutableStateOf(false) }
-
+                    Text(
+                        modifier = Modifier
+                            .padding(16.dp),
+                        text = "Расширенные настройки",
+                        style = MaterialTheme.typography.h5
+                    )
                     Column(
                         modifier = Modifier
                             .padding(top = 16.dp)
                     ) {
-                        Column(
+                        Row(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            DropdownMenu(
-                                expanded = dropdownExpanded.value,
-                                onDismissRequest = { dropdownExpanded.value = false },
-                                toggle = @Composable {
-                                    Button(
-                                        modifier = Modifier
-                                            .align(Alignment.CenterHorizontally),
+                            val arraySize = areDropdownsExpanded.size - 1
+
+                            for (i in 0..arraySize) {
+                                DropdownMenu(
+                                    expanded = areDropdownsExpanded[i].value,
+                                    onDismissRequest = { areDropdownsExpanded[i].value = false },
+                                    toggle = @Composable {
+                                        Button(
+                                            onClick = {
+                                                areDropdownsExpanded[i].value = true
+                                            }
+                                        ) {
+                                            Text("Девайс: ${dropdownMenuReadables[i].value}")
+                                            Icon(Icons.Default.ArrowDropDown)
+                                        }
+                                    },
+                                    toggleModifier = Modifier
+                                        .wrapContentSize(Alignment.TopStart)
+                                ) {
+                                    DropdownMenuItem(
                                         onClick = {
-                                            dropdownExpanded.value = true
+                                            GlobalScope.launch {
+                                                delay(350L)
+                                                isDeviceModelDropdownExpanded.value = false
+                                                delay(200L)
+                                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                            }
                                         }
                                     ) {
-                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
-                                        Icon(Icons.Default.ArrowDropDown)
+                                        Text("Не выбрано")
                                     }
-                                },
-                                toggleModifier = Modifier
-                                    .wrapContentSize(Alignment.TopStart)
-                            ) {
-                                DropdownMenuItem(
-                                    onClick = {
-                                        GlobalScope.launch {
-                                            delay(350L)
-                                            dropdownExpanded.value = false
-                                            delay(200L)
-                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
+                                    Divider()
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            GlobalScope.launch {
+                                                delay(350L)
+                                                isDeviceModelDropdownExpanded.value = false
+                                                delay(200L)
+                                                dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                            }
                                         }
+                                    ) {
+                                        Text("Моноколесо (Универсально)")
                                     }
-                                ) {
-                                    Text("Не выбрано")
-                                }
-                                Divider()
-                                DropdownMenuItem(
-                                    onClick = {
-                                        GlobalScope.launch {
-                                            delay(350L)
-                                            dropdownExpanded.value = false
-                                            delay(200L)
-                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
-                                        }
-                                    }
-                                ) {
-                                    Text("Моноколесо (Универсально)")
                                 }
                             }
+//                            DropdownMenu(
+//                                expanded = isDeviceModelDropdownExpanded.value,
+//                                onDismissRequest = { isDeviceModelDropdownExpanded.value = false },
+//                                toggle = @Composable {
+//                                    Button(
+//                                        onClick = {
+//                                            isDeviceModelDropdownExpanded.value = true
+//                                        }
+//                                    ) {
+//                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
+//                                        Icon(Icons.Default.ArrowDropDown)
+//                                    }
+//                                },
+//                                toggleModifier = Modifier
+//                                    .wrapContentSize(Alignment.TopStart)
+//                            ) {
+//                                DropdownMenuItem(
+//                                    onClick = {
+//                                        GlobalScope.launch {
+//                                            delay(350L)
+//                                            isDeviceModelDropdownExpanded.value = false
+//                                            delay(200L)
+//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+//                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
+//                                        }
+//                                    }
+//                                ) {
+//                                    Text("Не выбрано")
+//                                }
+//                                Divider()
+//                                DropdownMenuItem(
+//                                    onClick = {
+//                                        GlobalScope.launch {
+//                                            delay(350L)
+//                                            isDeviceModelDropdownExpanded.value = false
+//                                            delay(200L)
+//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+//                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+//                                        }
+//                                    }
+//                                ) {
+//                                    Text("Моноколесо (Универсально)")
+//                                }
+//                            }
+//                            DropdownMenu(
+//                                expanded = isCalculationModeDropdownExpanded.value,
+//                                onDismissRequest = { isCalculationModeDropdownExpanded.value = false },
+//                                toggle = @Composable {
+//                                    Button(
+//                                        onClick = {
+//                                            isCalculationModeDropdownExpanded.value = true
+//                                        }
+//                                    ) {
+//                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
+//                                        Icon(Icons.Default.ArrowDropDown)
+//                                    }
+//                                },
+//                                toggleModifier = Modifier
+//                                    .wrapContentSize(Alignment.TopStart)
+//                            ) {
+//                                DropdownMenuItem(
+//                                    onClick = {
+//                                        GlobalScope.launch {
+//                                            delay(350L)
+//                                            isCalculationModeDropdownExpanded.value = false
+//                                            delay(200L)
+//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+//                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
+//                                        }
+//                                    }
+//                                ) {
+//                                    Text("Не выбрано")
+//                                }
+//                                Divider()
+//                                DropdownMenuItem(
+//                                    onClick = {
+//                                        GlobalScope.launch {
+//                                            delay(350L)
+//                                            isCalculationModeDropdownExpanded.value = false
+//                                            delay(200L)
+//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+//                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+//                                        }
+//                                    }
+//                                ) {
+//                                    Text("Моноколесо (Универсально)")
+//                                }
+//                            }
                         }
                         Column(
                             modifier = Modifier,
@@ -133,7 +235,7 @@ fun MainScreen() {
                                     modifier = Modifier
                                         .padding(16.dp)
                                 ) {
-                                    TextField(
+                                    OutlinedTextField(
                                         value = textFieldBatteryCycles.value,
                                         onValueChange = { textFieldBatteryCycles.value = it },
                                         label = { Text(text = "Цыклы зарядки батареи") }
@@ -143,7 +245,7 @@ fun MainScreen() {
                                     modifier = Modifier
                                         .padding(16.dp)
                                 ) {
-                                    TextField(
+                                    OutlinedTextField(
                                         value = textFieldBatteryPercentage.value,
                                         onValueChange = { textFieldBatteryPercentage.value = it },
                                         label = { Text(text = "Заряд батареи") }
@@ -232,16 +334,16 @@ fun MainScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        val buttonState = remember { mutableStateOf(ButtonState.PRESSED) }
+                        val buttonState = remember { mutableStateOf(CalculateButtonState.PRESSED) }
 
-                        val toState = if (buttonState.value == ButtonState.IDLE) {
-                            ButtonState.PRESSED
+                        val toState = if (buttonState.value == CalculateButtonState.IDLE) {
+                            CalculateButtonState.PRESSED
                         } else {
-                            ButtonState.IDLE
+                            CalculateButtonState.IDLE
                         }
 
                         val state = transition(
-                            definition = transitionDefinition,
+                            definition = calculateButtonTransitionDefinition,
                             initState = buttonState.value,
                             toState = toState
                         )
@@ -267,7 +369,7 @@ fun MainScreen() {
                             },
                             border = BorderStroke(2f.dp, Color(0x88B6B6B6))
                         ) {
-                            Text("Дополнительные настройки")
+                            Text("Расширенные настройки")
                         }
                     }
                     Box(
