@@ -87,6 +87,8 @@ fun MainScreen() {
                         ) {
                             val arraySize = areDropdownsExpanded.size - 1
 
+                            val startingText = arrayOf("Девайс: ", "Считаем: ")
+
                             for (i in 0..arraySize) {
                                 DropdownMenu(
                                     expanded = areDropdownsExpanded[i].value,
@@ -97,7 +99,7 @@ fun MainScreen() {
                                                 areDropdownsExpanded[i].value = true
                                             }
                                         ) {
-                                            Text("Девайс: ${dropdownMenuReadables[i].value}")
+                                            Text("${startingText[i]} ${dropdownMenuReadables[i].value}")
                                             Icon(Icons.Default.ArrowDropDown)
                                         }
                                     },
@@ -133,94 +135,6 @@ fun MainScreen() {
                                     }
                                 }
                             }
-//                            DropdownMenu(
-//                                expanded = isDeviceModelDropdownExpanded.value,
-//                                onDismissRequest = { isDeviceModelDropdownExpanded.value = false },
-//                                toggle = @Composable {
-//                                    Button(
-//                                        onClick = {
-//                                            isDeviceModelDropdownExpanded.value = true
-//                                        }
-//                                    ) {
-//                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
-//                                        Icon(Icons.Default.ArrowDropDown)
-//                                    }
-//                                },
-//                                toggleModifier = Modifier
-//                                    .wrapContentSize(Alignment.TopStart)
-//                            ) {
-//                                DropdownMenuItem(
-//                                    onClick = {
-//                                        GlobalScope.launch {
-//                                            delay(350L)
-//                                            isDeviceModelDropdownExpanded.value = false
-//                                            delay(200L)
-//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-//                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
-//                                        }
-//                                    }
-//                                ) {
-//                                    Text("Не выбрано")
-//                                }
-//                                Divider()
-//                                DropdownMenuItem(
-//                                    onClick = {
-//                                        GlobalScope.launch {
-//                                            delay(350L)
-//                                            isDeviceModelDropdownExpanded.value = false
-//                                            delay(200L)
-//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-//                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
-//                                        }
-//                                    }
-//                                ) {
-//                                    Text("Моноколесо (Универсально)")
-//                                }
-//                            }
-//                            DropdownMenu(
-//                                expanded = isCalculationModeDropdownExpanded.value,
-//                                onDismissRequest = { isCalculationModeDropdownExpanded.value = false },
-//                                toggle = @Composable {
-//                                    Button(
-//                                        onClick = {
-//                                            isCalculationModeDropdownExpanded.value = true
-//                                        }
-//                                    ) {
-//                                        Text("Девайс: ${dropdownMenuDeviceModelReadable.value}")
-//                                        Icon(Icons.Default.ArrowDropDown)
-//                                    }
-//                                },
-//                                toggleModifier = Modifier
-//                                    .wrapContentSize(Alignment.TopStart)
-//                            ) {
-//                                DropdownMenuItem(
-//                                    onClick = {
-//                                        GlobalScope.launch {
-//                                            delay(350L)
-//                                            isCalculationModeDropdownExpanded.value = false
-//                                            delay(200L)
-//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-//                                            dropdownMenuDeviceModelReadable.value = "Не выбрано"
-//                                        }
-//                                    }
-//                                ) {
-//                                    Text("Не выбрано")
-//                                }
-//                                Divider()
-//                                DropdownMenuItem(
-//                                    onClick = {
-//                                        GlobalScope.launch {
-//                                            delay(350L)
-//                                            isCalculationModeDropdownExpanded.value = false
-//                                            delay(200L)
-//                                            dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-//                                            dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
-//                                        }
-//                                    }
-//                                ) {
-//                                    Text("Моноколесо (Универсально)")
-//                                }
-//                            }
                         }
                         Column(
                             modifier = Modifier,
