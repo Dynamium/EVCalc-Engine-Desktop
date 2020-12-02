@@ -49,7 +49,7 @@ fun CalculateButton(
                 val tmp = when (calculationMode.value) {
                     CalculationMode.MILEAGE -> {
                         EVCalc.calculateMileage(
-                            DeviceModel.EUC_UNIVERSAL,
+                            deviceModel.value,
                             riderWeight.value.text.toInt(),
                             batteryCapacity.value.text.toInt(),
                             airTemperature.value.text.toInt(),
