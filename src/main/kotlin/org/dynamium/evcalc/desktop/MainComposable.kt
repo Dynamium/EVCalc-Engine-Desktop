@@ -1,5 +1,3 @@
-@file:Suppress("FunctionName")
-
 package org.dynamium.evcalc.desktop
 
 import androidx.compose.animation.transition
@@ -44,6 +42,7 @@ fun MainScreen() {
         val textFieldBatteryCycles = remember { mutableStateOf(TextFieldValue("100")) }
         val textFieldSpeed = remember { mutableStateOf(TextFieldValue()) }
         val dropdownMenuDeviceModel = remember { mutableStateOf(DeviceModel.EUC_UNIVERSAL) }
+        val dropdownMenuCalculationMode = remember { mutableStateOf(CalculationMode.MILEAGE) }
         val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
         val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Не выбрано") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
@@ -111,7 +110,7 @@ fun MainScreen() {
                                             DropdownMenuItem(
                                                 onClick = {
                                                     GlobalScope.launch {
-                                                        delay(350L)
+                                                        delay(200L)
                                                         isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
                                                         dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
@@ -125,7 +124,7 @@ fun MainScreen() {
                                             DropdownMenuItem(
                                                 onClick = {
                                                     GlobalScope.launch {
-                                                        delay(350L)
+                                                        delay(200L)
                                                         isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
                                                         dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
@@ -141,10 +140,10 @@ fun MainScreen() {
                                             DropdownMenuItem(
                                                 onClick = {
                                                     GlobalScope.launch {
-                                                        delay(350L)
-                                                        isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
-                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        isCalculationModeDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuCalculationMode.value = CalculationMode.MILEAGE
                                                         dropdownMenuCalculationModeReadable.value = "Пробег"
                                                     }
                                                 }
@@ -155,10 +154,10 @@ fun MainScreen() {
                                             DropdownMenuItem(
                                                 onClick = {
                                                     GlobalScope.launch {
-                                                        delay(350L)
-                                                        isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
-                                                        dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
+                                                        isCalculationModeDropdownExpanded.value = false
+                                                        delay(200L)
+                                                        dropdownMenuCalculationMode.value = CalculationMode.TIRE_PRESSURE
                                                         dropdownMenuCalculationModeReadable.value = "Давление в покрышке(не готово)"
                                                     }
                                                 }
@@ -307,6 +306,7 @@ fun MainScreen() {
                             textFieldBatteryCycles,
                             textFieldSpeed,
                             textFieldBatteryPercentage,
+                            dropdownMenuCalculationMode,
                             dropdownMenuDeviceModel
                         )
                         OutlinedButton(

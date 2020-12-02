@@ -35,6 +35,7 @@ fun CalculateButton(
     batteryCycles: MutableState<TextFieldValue>,
     speed: MutableState<TextFieldValue>,
     batteryPercentage: MutableState<TextFieldValue>,
+    calculationMode: MutableState<CalculationMode>,
     deviceModel: MutableState<DeviceModel>
     ) {
     val buttonResult = remember { mutableStateOf("Подсчитать!") }
@@ -45,24 +46,23 @@ fun CalculateButton(
             .size(state[calculateButtonWidth], 50.dp),
         onClick = {
             try {
-                val dummy = EVCalc.calculateMileage(
-                    DeviceModel.EUC_UNIVERSAL,
-                    riderWeight.value.text.toInt(),
-                    batteryCapacity.value.text.toInt(),
-                    airTemperature.value.text.toInt(),
-                    batteryCycles.value.text.toInt(),
-                    speed.value.text.toInt(),
-                    batteryPercentage.value.text.toInt())
+                val tmp = when (calculationMode.value) {
+                    CalculationMode.MILEAGE -> {
+                        EVCalc.calculateMileage(
+                            DeviceModel.EUC_UNIVERSAL,
+                            riderWeight.value.text.toInt(),
+                            batteryCapacity.value.text.toInt(),
+                            airTemperature.value.text.toInt(),
+                            batteryCycles.value.text.toInt(),
+                            speed.value.text.toInt(),
+                            batteryPercentage.value.text.toInt())
+                    }
+                    CalculationMode.TIRE_PRESSURE -> {
+                        TODO("Подсчет давления в покрышке пока не работает.")
+                    }
+                }
 
-                drawCalculated(buttonResult, EVCalc.calculateMileage(
-                    deviceModel.value,
-                    riderWeight.value.text.toInt(),
-                    batteryCapacity.value.text.toInt(),
-                    airTemperature.value.text.toInt(),
-                    batteryCycles.value.text.toInt(),
-                    speed.value.text.toInt(),
-                    batteryPercentage.value.text.toInt()
-                ).toString())
+                drawCalculated(buttonResult, tmp.toString())
 
                 if (calculateButtonState.value == CalculateButtonState.IDLE) {
                     calculateButtonState.value = CalculateButtonState.PRESSED
@@ -78,7 +78,7 @@ fun CalculateButton(
                         delay(2000L)
                         textResultState.value = ResultTextAnimationState.HIDDEN
                         delay(250L)
-                        textResult.value = "Последнее подсчитанное: $dummy"
+                        textResult.value = "Последнее подсчитанное: $tmp"
                         textResultState.value = ResultTextAnimationState.SHOWN
                     }
                 }
