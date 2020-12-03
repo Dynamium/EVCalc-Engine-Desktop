@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package org.dynamium.evcalc.desktop
 
 import androidx.compose.animation.transition
@@ -14,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.ExperimentalKeyInput
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -26,7 +27,6 @@ import org.dynamium.evcalc.desktop.components.CalculateButtonState
 import org.dynamium.evcalc.desktop.components.calculateButtonTransitionDefinition
 import org.dynamium.evcalc.engine.api.DeviceModel
 
-@ExperimentalKeyInput
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
@@ -35,7 +35,6 @@ fun MainScreen() {
             .fillMaxHeight()
             .fillMaxWidth()
     ) {
-
         val textFieldRiderWeight = remember { mutableStateOf(TextFieldValue()) }
         val textFieldBatteryCapacity = remember { mutableStateOf(TextFieldValue()) }
         val textFieldAirTemperature = remember { mutableStateOf(TextFieldValue()) }
@@ -44,7 +43,7 @@ fun MainScreen() {
         val dropdownMenuDeviceModel = remember { mutableStateOf(DeviceModel.EUC_UNIVERSAL) }
         val dropdownMenuCalculationMode = remember { mutableStateOf(CalculationMode.MILEAGE) }
         val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
-        val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Не выбрано") }
+        val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Пробег") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
