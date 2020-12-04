@@ -312,8 +312,6 @@ fun MainScreen() {
 
                                 val arraySize = radioOptions.size - 1
 
-                                val selectedOption = remember { mutableStateOf(radioOptions[0]) }
-
                                 val selectedRadio = arrayOf(
                                     remember { mutableStateOf(false) },
                                     remember { mutableStateOf(false) },
