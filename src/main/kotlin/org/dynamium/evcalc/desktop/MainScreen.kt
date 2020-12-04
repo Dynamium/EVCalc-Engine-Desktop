@@ -265,6 +265,7 @@ fun MainScreen() {
                                 .padding(16.dp)
                         ) {
                             if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
+
                                 OutlinedTextField(
                                     value = textFieldRiderWeight.value,
                                     onValueChange = { textFieldRiderWeight.value = it },
@@ -275,17 +276,22 @@ fun MainScreen() {
                                     onValueChange = { textFieldBatteryCapacity.value = it },
                                     label = { Text(text = "Емкость батареи") }
                                 )
+
                             } else {
+
                                 OutlinedTextField(
                                     value = textFieldRiderWeight.value,
                                     onValueChange = { textFieldRiderWeight.value = it },
                                     label = { Text(text = "Вес райдера") }
                                 )
+
+
                             }
                         }
                         Column(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
                                 OutlinedTextField(
@@ -305,13 +311,13 @@ fun MainScreen() {
                                     "Твердо, для офроада"
                                 )
 
-                                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
+                                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
                                 radioOptions.forEach { text ->
                                     Row(
                                         Modifier
                                             .fillMaxWidth()
-                                            .clip(RoundedCornerShape(4.dp))
+                                            .clip(RoundedCornerShape(8.dp))
                                             .selectable(
                                                 selected = (text == selectedOption),
                                                 onClick = {
