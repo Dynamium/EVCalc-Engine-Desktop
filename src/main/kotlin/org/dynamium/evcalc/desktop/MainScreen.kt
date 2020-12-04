@@ -6,6 +6,7 @@ import androidx.compose.animation.transition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -127,7 +128,8 @@ fun MainScreen() {
                                                         isDeviceModelDropdownExpanded.value = false
                                                         delay(200L)
                                                         dropdownMenuDeviceModel.value = DeviceModel.EUC_UNIVERSAL
-                                                        dropdownMenuDeviceModelReadable.value = "Моноколесо (Универсально)"
+                                                        dropdownMenuDeviceModelReadable.value =
+                                                            "Моноколесо (Универсально)"
                                                     }
                                                 }
                                             ) {
@@ -156,46 +158,51 @@ fun MainScreen() {
                                                         delay(200L)
                                                         isCalculationModeDropdownExpanded.value = false
                                                         delay(200L)
-                                                        dropdownMenuCalculationMode.value = CalculationMode.TIRE_PRESSURE
-                                                        dropdownMenuCalculationModeReadable.value = "Давление в покрышке(не готово)"
+                                                        dropdownMenuCalculationMode.value =
+                                                            CalculationMode.TIRE_PRESSURE
+                                                        dropdownMenuCalculationModeReadable.value =
+                                                            "Давление в покрышке"
                                                     }
                                                 }
                                             ) {
-                                                Text("Давление в покрышке(не готово)")
+                                                Text("Давление в покрышке")
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                        Column(
-                            modifier = Modifier,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
+
+                        if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
+                            Column(
+                                modifier = Modifier,
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Column(
+                                Row(
+                                    horizontalArrangement = Arrangement.Center,
                                     modifier = Modifier
-                                        .padding(16.dp)
+                                        .fillMaxWidth()
                                 ) {
-                                    OutlinedTextField(
-                                        value = textFieldBatteryCycles.value,
-                                        onValueChange = { textFieldBatteryCycles.value = it },
-                                        label = { Text(text = "Цыклы зарядки батареи") }
-                                    )
-                                }
-                                Column(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                ) {
-                                    OutlinedTextField(
-                                        value = textFieldBatteryPercentage.value,
-                                        onValueChange = { textFieldBatteryPercentage.value = it },
-                                        label = { Text(text = "Заряд батареи") }
-                                    )
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                    ) {
+                                        OutlinedTextField(
+                                            value = textFieldBatteryCycles.value,
+                                            onValueChange = { textFieldBatteryCycles.value = it },
+                                            label = { Text(text = "Цыклы зарядки батареи") }
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                    ) {
+                                        OutlinedTextField(
+                                            value = textFieldBatteryPercentage.value,
+                                            onValueChange = { textFieldBatteryPercentage.value = it },
+                                            label = { Text(text = "Заряд батареи") }
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -205,6 +212,14 @@ fun MainScreen() {
                             horizontalAlignment = Alignment.End
                         ) {
                             Button(
+                                modifier = Modifier
+                                    .padding(
+                                        top = if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
+                                            0.dp
+                                        } else {
+                                            16.dp
+                                        }
+                                    ),
                                 onClick = {
                                     bottomSheetState.hide()
                                 }
@@ -246,32 +261,76 @@ fun MainScreen() {
                             modifier = Modifier
                                 .padding(16.dp)
                         ) {
-                            OutlinedTextField(
-
-                                value = textFieldRiderWeight.value,
-                                onValueChange = { textFieldRiderWeight.value = it },
-                                label = { Text(text = "Вес райдера") }
-                            )
-                            OutlinedTextField(
-                                value = textFieldBatteryCapacity.value,
-                                onValueChange = { textFieldBatteryCapacity.value = it },
-                                label = { Text(text = "Емкость батареи") }
-                            )
+                            if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
+                                OutlinedTextField(
+                                    value = textFieldRiderWeight.value,
+                                    onValueChange = { textFieldRiderWeight.value = it },
+                                    label = { Text(text = "Вес райдера") }
+                                )
+                                OutlinedTextField(
+                                    value = textFieldBatteryCapacity.value,
+                                    onValueChange = { textFieldBatteryCapacity.value = it },
+                                    label = { Text(text = "Емкость батареи") }
+                                )
+                            } else {
+                                OutlinedTextField(
+                                    value = textFieldRiderWeight.value,
+                                    onValueChange = { textFieldRiderWeight.value = it },
+                                    label = { Text(text = "Вес райдера") }
+                                )
+                            }
                         }
                         Column(
                             modifier = Modifier
                                 .padding(16.dp)
                         ) {
-                            OutlinedTextField(
-                                value = textFieldAirTemperature.value,
-                                onValueChange = { textFieldAirTemperature.value = it },
-                                label = { Text(text = "Температура воздуха") }
-                            )
-                            OutlinedTextField(
-                                value = textFieldSpeed.value,
-                                onValueChange = { textFieldSpeed.value = it },
-                                label = { Text(text = "Средняя скорость") }
-                            )
+                            if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
+                                OutlinedTextField(
+                                    value = textFieldAirTemperature.value,
+                                    onValueChange = { textFieldAirTemperature.value = it },
+                                    label = { Text(text = "Температура воздуха") }
+                                )
+                                OutlinedTextField(
+                                    value = textFieldSpeed.value,
+                                    onValueChange = { textFieldSpeed.value = it },
+                                    label = { Text(text = "Средняя скорость") }
+                                )
+                            } else {
+                                val radioOptions = listOf(
+                                    "Мягко, но можно повредить обод на кочке",
+                                    "Средне, можно спрыгивать с высоких бордюров",
+                                    "Твердо, для офроада"
+                                )
+
+                                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
+
+                                radioOptions.forEach { text ->
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .selectable(
+                                                selected = (text == selectedOption),
+                                                onClick = {
+                                                    onOptionSelected(text)
+                                                }
+                                            )
+                                            .padding(
+                                                horizontal = 16.dp,
+                                                vertical = 8.dp
+                                            )
+                                    ) {
+                                        RadioButton(
+                                            selected = (text == selectedOption),
+                                            onClick = { onOptionSelected(text) }
+                                        )
+                                        Text(
+                                            text = text,
+                                            style = MaterialTheme.typography.body1.merge(),
+                                            modifier = Modifier.padding(start = 16.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                     Column(
