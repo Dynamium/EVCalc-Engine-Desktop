@@ -291,7 +291,6 @@ fun MainScreen() {
                         Column(
                             modifier = Modifier
                                 .padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             if (dropdownMenuCalculationMode.value == CalculationMode.MILEAGE) {
                                 OutlinedTextField(
@@ -316,7 +315,6 @@ fun MainScreen() {
                                 radioOptions.forEach { text ->
                                     Row(
                                         Modifier
-                                            .fillMaxWidth()
                                             .clip(RoundedCornerShape(8.dp))
                                             .selectable(
                                                 selected = (text == selectedOption),
