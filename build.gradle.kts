@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.dynamium.evcalc"
-version = "1.2.2"
+version = "1.2.3"
 
 repositories {
     jcenter()
@@ -33,7 +33,7 @@ compose.desktop {
         nativeDistributions {
 
             packageName = "EVCalc Engine Desktop"
-            version = "1.2.2"
+            version = "1.2.3"
             description = "EVCalc Desktop app for calculating mileage on one charge and more for PEVs."
 
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
