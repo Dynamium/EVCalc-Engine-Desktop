@@ -329,10 +329,8 @@ fun MainScreen() {
                                                 onClick = {
                                                     for (j in 0 until selectedRadioArraySize) {
                                                         selectedRadio[j].value = false
-                                                        println(selectedRadio[j].value)
                                                     }
                                                     selectedRadio[i].value = true
-                                                    println(selectedRadio[i].value)
                                                 }
                                             )
                                             .padding(
@@ -342,7 +340,6 @@ fun MainScreen() {
                                             .height(32.dp)
                                             .width(316.dp)
                                     ) {
-                                        println(selectedRadio[i].value)
                                         Column(
                                             Modifier
                                                 .fillMaxHeight(),
