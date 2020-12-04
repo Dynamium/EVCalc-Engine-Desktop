@@ -310,16 +310,25 @@ fun MainScreen() {
                                     "Твердо, для офроада"
                                 )
 
-                                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+                                val arraySize = radioOptions.size - 1
 
-                                radioOptions.forEach { text ->
+                                val selectedOption = remember { mutableStateOf(radioOptions[0]) }
+
+                                val selectedRadio = mutableListOf(false, false, false)
+
+                                val selectedRadioArraySize = selectedRadio.size - 1
+
+                                for (i in 0..arraySize) {
                                     Row(
                                         Modifier
                                             .clip(RoundedCornerShape(8.dp))
                                             .selectable(
-                                                selected = (text == selectedOption),
+                                                selected = selectedRadio[i],
                                                 onClick = {
-                                                    onOptionSelected(text)
+                                                    for (j in 0 until selectedRadioArraySize) {
+                                                        selectedRadio[j] = false
+                                                    }
+                                                    selectedRadio[i] = true
                                                 }
                                             )
                                             .padding(
@@ -335,8 +344,13 @@ fun MainScreen() {
                                             verticalArrangement = Arrangement.Center
                                         ) {
                                             RadioButton(
-                                                selected = (text == selectedOption),
-                                                onClick = { onOptionSelected(text) }
+                                                selected = selectedRadio[i],
+                                                onClick = {
+                                                    for (j in 0 until selectedRadioArraySize) {
+                                                        selectedRadio[j] = false
+                                                    }
+                                                    selectedRadio[i] = true
+                                                }
                                             )
                                         }
                                         Column(
@@ -345,7 +359,7 @@ fun MainScreen() {
                                             verticalArrangement = Arrangement.Center
                                         ) {
                                             Text(
-                                                text = text,
+                                                text = radioOptions[i],
                                                 style = MaterialTheme.typography.body1.merge(),
                                                 modifier = Modifier.padding(start = 16.dp)
                                             )
