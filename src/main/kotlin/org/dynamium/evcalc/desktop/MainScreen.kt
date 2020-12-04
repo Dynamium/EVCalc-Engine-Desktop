@@ -327,6 +327,7 @@ fun MainScreen() {
                                                 vertical = 8.dp
                                             )
                                             .height(32.dp)
+                                            .width(316.dp)
                                     ) {
                                         Column(
                                             Modifier
@@ -340,7 +341,7 @@ fun MainScreen() {
                                         }
                                         Column(
                                             Modifier
-                                                .fillMaxHeight(),
+                                                .fillMaxSize(),
                                             verticalArrangement = Arrangement.Center
                                         ) {
                                             Text(
