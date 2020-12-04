@@ -314,7 +314,11 @@ fun MainScreen() {
 
                                 val selectedOption = remember { mutableStateOf(radioOptions[0]) }
 
-                                val selectedRadio = mutableListOf(false, false, false)
+                                val selectedRadio = arrayOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) }
+                                )
 
                                 val selectedRadioArraySize = selectedRadio.size - 1
 
@@ -323,12 +327,14 @@ fun MainScreen() {
                                         Modifier
                                             .clip(RoundedCornerShape(8.dp))
                                             .selectable(
-                                                selected = selectedRadio[i],
+                                                selected = selectedRadio[i].value,
                                                 onClick = {
                                                     for (j in 0 until selectedRadioArraySize) {
-                                                        selectedRadio[j] = false
+                                                        selectedRadio[j].value = false
+                                                        println(selectedRadio[j].value)
                                                     }
-                                                    selectedRadio[i] = true
+                                                    selectedRadio[i].value = true
+                                                    println(selectedRadio[i].value)
                                                 }
                                             )
                                             .padding(
@@ -338,18 +344,19 @@ fun MainScreen() {
                                             .height(32.dp)
                                             .width(316.dp)
                                     ) {
+                                        println(selectedRadio[i].value)
                                         Column(
                                             Modifier
                                                 .fillMaxHeight(),
                                             verticalArrangement = Arrangement.Center
                                         ) {
                                             RadioButton(
-                                                selected = selectedRadio[i],
+                                                selected = selectedRadio[i].value,
                                                 onClick = {
                                                     for (j in 0 until selectedRadioArraySize) {
-                                                        selectedRadio[j] = false
+                                                        selectedRadio[j].value = false
                                                     }
-                                                    selectedRadio[i] = true
+                                                    selectedRadio[i].value = true
                                                 }
                                             )
                                         }
