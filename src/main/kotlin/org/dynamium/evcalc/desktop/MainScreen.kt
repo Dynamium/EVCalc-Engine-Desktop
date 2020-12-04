@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.maxLinesHeight
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -321,16 +322,29 @@ fun MainScreen() {
                                                 horizontal = 16.dp,
                                                 vertical = 8.dp
                                             )
+                                            .height(32.dp)
                                     ) {
-                                        RadioButton(
-                                            selected = (text == selectedOption),
-                                            onClick = { onOptionSelected(text) }
-                                        )
-                                        Text(
-                                            text = text,
-                                            style = MaterialTheme.typography.body1.merge(),
-                                            modifier = Modifier.padding(start = 16.dp)
-                                        )
+                                        Column(
+                                            Modifier
+                                                .fillMaxHeight(),
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            RadioButton(
+                                                selected = (text == selectedOption),
+                                                onClick = { onOptionSelected(text) }
+                                            )
+                                        }
+                                        Column(
+                                            Modifier
+                                                .fillMaxHeight(),
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Text(
+                                                text = text,
+                                                style = MaterialTheme.typography.body1.merge(),
+                                                modifier = Modifier.padding(start = 16.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
