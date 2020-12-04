@@ -58,7 +58,7 @@ fun CalculateButton(
                             batteryPercentage.value.text.toInt())
                     }
                     CalculationMode.TIRE_PRESSURE -> {
-                        TODO("Подсчет давления в покрышке пока не работает.")
+                        TODO("Add tire pressure calculation implementation")
                     }
                 }
 
