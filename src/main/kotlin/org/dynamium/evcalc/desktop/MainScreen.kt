@@ -320,7 +320,7 @@ fun MainScreen() {
                                     remember { mutableStateOf(false) }
                                 )
 
-                                val selectedRadioArraySize = selectedRadio.size - 1
+                                val selectedRadioArraySize = selectedRadio.size
 
                                 for (i in 0..arraySize) {
                                     Row(
