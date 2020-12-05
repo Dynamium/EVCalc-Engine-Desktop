@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.GlobalScope
@@ -29,6 +30,7 @@ import kotlinx.coroutines.launch
 import org.dynamium.evcalc.desktop.components.CalculateButton
 import org.dynamium.evcalc.desktop.components.CalculateButtonState
 import org.dynamium.evcalc.desktop.components.calculateButtonTransitionDefinition
+import org.dynamium.evcalc.desktop.components.theme.Font
 import org.dynamium.evcalc.engine.api.DeviceModel
 
 @ExperimentalMaterialApi
@@ -121,7 +123,10 @@ fun MainScreen() {
                                                     }
                                                 }
                                             ) {
-                                                Text("Не выбрано")
+                                                Text(
+                                                    "Не выбрано",
+                                                    fontFamily = Font.Montserrat
+                                                )
                                             }
                                             Divider()
                                             DropdownMenuItem(
@@ -136,7 +141,10 @@ fun MainScreen() {
                                                     }
                                                 }
                                             ) {
-                                                Text("Моноколесо (Универсально)")
+                                                Text(
+                                                    "Моноколесо (Универсально)",
+                                                    fontFamily = Font.Montserrat
+                                                )
                                             }
                                         }
 
@@ -152,7 +160,10 @@ fun MainScreen() {
                                                     }
                                                 }
                                             ) {
-                                                Text("Пробег")
+                                                Text(
+                                                    "Пробег",
+                                                    fontFamily = Font.Montserrat
+                                                )
                                             }
                                             Divider()
                                             DropdownMenuItem(
@@ -168,7 +179,10 @@ fun MainScreen() {
                                                     }
                                                 }
                                             ) {
-                                                Text("Давление в покрышке")
+                                                Text(
+                                                    "Давление в покрышке",
+                                                    fontFamily = Font.Montserrat
+                                                )
                                             }
                                         }
                                     }
@@ -235,7 +249,9 @@ fun MainScreen() {
             }
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -337,8 +353,8 @@ fun MainScreen() {
                                                 horizontal = 16.dp,
                                                 vertical = 8.dp
                                             )
-                                            .height(32.dp)
-                                            .width(316.dp)
+                                            .height(42.dp)
+                                            .width(300.dp)
                                     ) {
                                         Column(
                                             Modifier
