@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import org.dynamium.evcalc.engine.api.DeviceModel
 import org.dynamium.evcalc.engine.api.EVCalc
 import org.dynamium.evcalc.desktop.*
+import org.dynamium.evcalc.engine.api.calculateMileage
 
 @Composable
 fun CalculateButton(
