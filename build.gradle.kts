@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.dynamium.evcalc"
-version = "1.2.3"
+version = "1.2.4"
 
 repositories {
     jcenter()
@@ -33,10 +33,10 @@ compose.desktop {
         nativeDistributions {
 
             packageName = "EVCalc Engine Desktop"
-            version = "1.2.3"
+            version = "1.2.4"
             description = "EVCalc Desktop app for calculating mileage on one charge and more for PEVs."
 
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Pkg, TargetFormat.Msi, TargetFormat.Deb)
 
             macOS {
                 iconFile.set(project.file("appIcons/EVCalc Engine Desktop.icns"))
