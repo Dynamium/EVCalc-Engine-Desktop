@@ -44,7 +44,8 @@ fun CalculateButton(
     batteryPercentage: MutableState<TextFieldValue>,
     calculationMode: MutableState<CalculationMode>,
     deviceModel: MutableState<DeviceModel>,
-    rideSoftness: MutableState<RideSoftness>
+    rideSoftness: MutableState<RideSoftness>,
+    wheelDiameter: MutableState<TextFieldValue>
 ) {
     val buttonResult = remember { mutableStateOf("Подсчитать!") }
 
@@ -67,7 +68,7 @@ fun CalculateButton(
                     }
                     CalculationMode.TIRE_PRESSURE -> {
                         EVCalc.calculateTirePressure(
-                            wheelDiameter = 16,
+                            wheelDiameter = wheelDiameter.value.text.toInt(),
                             wheelWidth = 2.125F,
                             riderWeight = riderWeight.value.text.toInt(),
                             rideSoftness = rideSoftness.value,

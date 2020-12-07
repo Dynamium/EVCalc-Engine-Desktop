@@ -53,6 +53,8 @@ fun MainScreen() {
         val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Пробег") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
         val rideSoftness = remember { mutableStateOf(RideSoftness.SOFT) }
+        val textFieldWheelDiameter = remember { mutableStateOf(TextFieldValue()) }
+
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
 
@@ -66,6 +68,12 @@ fun MainScreen() {
         val areDropdownsExpanded = arrayOf(isDeviceModelDropdownExpanded, isCalculationModeDropdownExpanded)
 
         val dropdownMenuReadables = arrayOf(dropdownMenuDeviceModelReadable, dropdownMenuCalculationModeReadable)
+
+        val rideSoftnessSelectedRadio = arrayOf(
+            remember { mutableStateOf(true) },
+            remember { mutableStateOf(false) },
+            remember { mutableStateOf(false) }
+        )
 
         ModalBottomSheetLayout(
             sheetState = bottomSheetState,
@@ -302,7 +310,11 @@ fun MainScreen() {
                                     onValueChange = { textFieldRiderWeight.value = it },
                                     label = { Text(text = "Вес райдера") }
                                 )
-
+                                OutlinedTextField(
+                                    value = textFieldWheelDiameter.value,
+                                    onValueChange = { textFieldWheelDiameter.value = it },
+                                    label = { Text(text = "Диаметр покрышки") }
+                                )
 
                             }
                         }
@@ -330,25 +342,19 @@ fun MainScreen() {
 
                                 val arraySize = radioOptions.size - 1
 
-                                val selectedRadio = arrayOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) }
-                                )
-
-                                val selectedRadioArraySize = selectedRadio.size
+                                val selectedRadioArraySize = rideSoftnessSelectedRadio.size
 
                                 for (i in 0..arraySize) {
                                     Row(
                                         Modifier
                                             .clip(RoundedCornerShape(8.dp))
                                             .selectable(
-                                                selected = selectedRadio[i].value,
+                                                selected = rideSoftnessSelectedRadio[i].value,
                                                 onClick = {
                                                     for (j in 0 until selectedRadioArraySize) {
-                                                        selectedRadio[j].value = false
+                                                        rideSoftnessSelectedRadio[j].value = false
                                                     }
-                                                    selectedRadio[i].value = true
+                                                    rideSoftnessSelectedRadio[i].value = true
                                                     rideSoftness.value = when (i) {
                                                         0 -> {
                                                             RideSoftness.SOFT
@@ -376,12 +382,12 @@ fun MainScreen() {
                                             verticalArrangement = Arrangement.Center
                                         ) {
                                             RadioButton(
-                                                selected = selectedRadio[i].value,
+                                                selected = rideSoftnessSelectedRadio[i].value,
                                                 onClick = {
                                                     for (j in 0 until selectedRadioArraySize) {
-                                                        selectedRadio[j].value = false
+                                                        rideSoftnessSelectedRadio[j].value = false
                                                     }
-                                                    selectedRadio[i].value = true
+                                                    rideSoftnessSelectedRadio[i].value = true
                                                 }
                                             )
                                         }
@@ -434,7 +440,8 @@ fun MainScreen() {
                             textFieldBatteryPercentage,
                             dropdownMenuCalculationMode,
                             dropdownMenuDeviceModel,
-                            rideSoftness
+                            rideSoftness,
+                            textFieldWheelDiameter
                         )
                         OutlinedButton(
                             modifier = Modifier
