@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("org.dynamium.evcalc:evcalc-engine:1.0-dev6")
+    implementation("org.dynamium.evcalc:evcalc-engine:1.0-dev7")
     implementation("io.ktor:ktor-client-cio:1.4.2")
 }
 
