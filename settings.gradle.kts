@@ -6,5 +6,5 @@ pluginManagement {
     }
     
 }
-rootProject.name = "desktop"
+rootProject.name = "EVCalc Engine Desktop"
 
