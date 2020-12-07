@@ -19,11 +19,17 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.dynamium.evcalc.engine.api.DeviceModel
+import org.dynamium.evcalc.desktop.CalculationMode
+import org.dynamium.evcalc.desktop.ResultTextAnimationState
 import org.dynamium.evcalc.engine.api.EVCalc
-import org.dynamium.evcalc.desktop.*
-import org.dynamium.evcalc.engine.api.calculateMileage
+import org.dynamium.evcalc.engine.api.ExperimentalEvcalcApi
+import org.dynamium.evcalc.engine.api.calculation.DeviceModel
+import org.dynamium.evcalc.engine.api.calculation.mileage.calculateMileage
+import org.dynamium.evcalc.engine.api.calculation.tirepressure.RideSoftness
+import org.dynamium.evcalc.engine.api.calculation.tirepressure.TireType
+import org.dynamium.evcalc.engine.api.calculation.tirepressure.calculateTirePressure
 
+@ExperimentalEvcalcApi
 @Composable
 fun CalculateButton(
     calculateButtonState: MutableState<CalculateButtonState>,
@@ -37,8 +43,9 @@ fun CalculateButton(
     speed: MutableState<TextFieldValue>,
     batteryPercentage: MutableState<TextFieldValue>,
     calculationMode: MutableState<CalculationMode>,
-    deviceModel: MutableState<DeviceModel>
-    ) {
+    deviceModel: MutableState<DeviceModel>,
+    rideSoftness: MutableState<RideSoftness>
+) {
     val buttonResult = remember { mutableStateOf("Подсчитать!") }
 
     Button(
@@ -59,7 +66,13 @@ fun CalculateButton(
                             batteryPercentage.value.text.toInt())
                     }
                     CalculationMode.TIRE_PRESSURE -> {
-                        TODO("Add tire pressure calculation implementation")
+                        EVCalc.calculateTirePressure(
+                            wheelDiameter = 16,
+                            wheelWidth = 2.125F,
+                            riderWeight = riderWeight.value.text.toInt(),
+                            rideSoftness = rideSoftness.value,
+                            tireType = TireType.STANDARD
+                        )
                     }
                 }
 

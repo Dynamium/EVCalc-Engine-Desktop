@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.maxLinesHeight
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -21,7 +20,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.GlobalScope
@@ -31,8 +29,11 @@ import org.dynamium.evcalc.desktop.components.CalculateButton
 import org.dynamium.evcalc.desktop.components.CalculateButtonState
 import org.dynamium.evcalc.desktop.components.calculateButtonTransitionDefinition
 import org.dynamium.evcalc.desktop.components.theme.Font
-import org.dynamium.evcalc.engine.api.DeviceModel
+import org.dynamium.evcalc.engine.api.ExperimentalEvcalcApi
+import org.dynamium.evcalc.engine.api.calculation.DeviceModel
+import org.dynamium.evcalc.engine.api.calculation.tirepressure.RideSoftness
 
+@ExperimentalEvcalcApi
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
@@ -51,6 +52,7 @@ fun MainScreen() {
         val dropdownMenuDeviceModelReadable = remember { mutableStateOf("Не выбрано") }
         val dropdownMenuCalculationModeReadable = remember { mutableStateOf("Пробег") }
         val textFieldBatteryPercentage = remember { mutableStateOf(TextFieldValue("100")) }
+        val rideSoftness = remember { mutableStateOf(RideSoftness.SOFT) }
 
         val textResult = remember { mutableStateOf("Вы пока ничего не считали :D") }
 
@@ -347,6 +349,18 @@ fun MainScreen() {
                                                         selectedRadio[j].value = false
                                                     }
                                                     selectedRadio[i].value = true
+                                                    rideSoftness.value = when (i) {
+                                                        0 -> {
+                                                            RideSoftness.SOFT
+                                                        }
+                                                        1 -> {
+                                                            RideSoftness.MEDIUM
+                                                        }
+                                                        2 -> {
+                                                            RideSoftness.HARD
+                                                        }
+                                                        else -> throw IllegalStateException("Unknown ride softness")
+                                                    }
                                                 }
                                             )
                                             .padding(
@@ -419,7 +433,8 @@ fun MainScreen() {
                             textFieldSpeed,
                             textFieldBatteryPercentage,
                             dropdownMenuCalculationMode,
-                            dropdownMenuDeviceModel
+                            dropdownMenuDeviceModel,
+                            rideSoftness
                         )
                         OutlinedButton(
                             modifier = Modifier
